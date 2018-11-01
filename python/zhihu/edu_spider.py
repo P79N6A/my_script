@@ -8,6 +8,7 @@
 import os
 
 from zhihu_oauth import ZhihuClient
+from sqllite_util import EasySqlite
 
 
 TOKEN_FILE = 'token.pkl'
@@ -29,6 +30,20 @@ def login_zhihu():
 
 if __name__ == '__main__':
     client = login_zhihu()
-    topic = client.topic(19564381)
-    print(topic.name)
-    # questions = topic.unanswered_questions
+    topic_id = 19564381
+    topic = client.topic(topic_id)
+    print(topic)
+    questions = topic.unanswered_questions
+    db = EasySqlite('zhihu.db')
+    sql_tmp = 'replace into questions values(?,?,?,?,?,?)'
+    for question in questions:
+        if question.answer_count < 10:
+            continue
+        row = [question.id, question.title, question.follower_count, question.answer_count, question.comment_count,
+               topic_id]
+        print(row)
+        ret = db.update(sql_tmp, args=row)
+        if not ret:
+            print('insert error!')
+        else:
+            print('insert success!')
