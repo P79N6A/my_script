@@ -7,3 +7,12 @@ create table questions (
   comment_count int not null,
   topic_id int not null
 );
+
+drop table if exists answers;
+create table questions (
+  id int unique not null,
+  follower_count int not null,
+  voteup_count int not null,
+  thanks_count int not null,
+  question_id int not null
+);
