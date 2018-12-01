@@ -82,14 +82,14 @@ class ZhiHu(object):
         #     else:
         #         print('insert success!')
 
-    def to_md(self):
-        sql = "select * from questions order by answer_count desc limit 1000"
+    def to_md(self, topic, file_name):
+        sql = "select * from questions where topic_id = '%s' order by follower_count desc limit 1000" % topic
         ret = self.db.query(sql)
-        line_tmp = "%s. [%s](https://www.zhihu.com/question/%s) 回答数：%s 关注数：%s 评论数：%s<br>\n"
+        line_tmp = "%s. [%s](https://www.zhihu.com/question/%s) 关注数：%s 回答数：%s 评论数：%s<br>\n"
         i = 1
-        with open('questions.md', 'w', encoding='utf8') as f:
+        with open(file_name, 'w', encoding='utf8') as f:
             for item in ret:
-                line = line_tmp % (i, item['title'], item['id'], item['answer_count'], item['follower_count'], item['comment_count'])
+                line = line_tmp % (i, item['title'], item['id'], item['follower_count'], item['answer_count'], item['comment_count'])
                 f.write(line)
                 i += 1
 
@@ -97,5 +97,8 @@ class ZhiHu(object):
 
 if __name__ == '__main__':
     client = ZhiHu()
+    # 家庭教育
     # client.save_answer_info(20018541)
-    client.to_md()
+    # 儿童教育
+    # client.save_quesions(19556671)
+    client.to_md(19556671, 'children_questions.md')
