@@ -16,12 +16,12 @@ import urllib.parse as urlparse
 class GifSpider(scrapy.Spider):
     name = "duowan_gif"
     allowed_domains = ["tu.duowan.com"]
-    page_no = 137925
+    page_no = 100204
     now_time = int(time.time()*1000)
-    gif_dir = "G:\\gif\\duowan\\%s"
+    gif_dir = "/home/gif/duowan/%s"
     url_tmp = "http://tu.duowan.com/index.php?r=show/getByGallery/&gid=%s&_=%s"
     start_urls = [
-        "http://tu.duowan.com/index.php?r=show/getByGallery/&gid=137925&_=%s" % now_time,
+        "http://tu.duowan.com/index.php?r=show/getByGallery/&gid=100204&_=%s" % now_time,
         ]
 
     def parse(self, response):
@@ -46,7 +46,7 @@ class GifSpider(scrapy.Spider):
                 gif_item['file_name'] = os.path.basename(item['url'])
                 os.makedirs(gif_item['gif_dir'], exist_ok=True)
                 yield gif_item
-        while self.page_no >= 118428:
+        while self.page_no >= 100204:
             self.now_time = int(time.time() * 1000)
             url = self.url_tmp % (self.page_no, self.now_time)
             self.page_no -= 1

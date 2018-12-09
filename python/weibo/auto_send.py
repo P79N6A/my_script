@@ -106,14 +106,17 @@ def get_cmt_user_id(session, mid):
 
 
 def postImage(wb):
-    base_dir = "H:\\gif\\duowan\\100003"
+    base_dir = "/home/gif/duowan/100204"
     import os
-    with open(os.path.join(base_dir, "test.txt"), 'r') as f:
+    import random
+    with open(os.path.join(base_dir, "readme.txt"), 'r') as f:
         lines = f.readlines()
         for line in lines:
             line_arr = line.split("\t")
-            wb.postImage(line_arr[0], os.path.join(base_dir, line_arr[1]))
-            time.sleep(150)
+            wb.postImage(u'%s #搞笑# #搞笑GIF# 【搞笑】' % line_arr[0], os.path.join(base_dir, line_arr[1]))
+            dd = random.randint(10, 40)
+            print(line_arr[0])
+            time.sleep(dd*60)
 
 
 if __name__ == '__main__':
